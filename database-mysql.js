@@ -1,6 +1,50 @@
 /*
  * Database module based on 'mysql' https://github.com/felixge/node-mysql
  */
+ 
+var mysql = require('mysql');
+
+var USERS = 'users';
+var STATUSES = 'statuses';
+var FOLLOWERS = 'followers';
+
+ /*
+ * Database schema:
+ * users: id, name, screen_name
+ * statuses: id, user_id, text, created_at
+ * followers: user_id, follower_id
+ */
+
+// tweets are partitioned into databases
+var DATABASE0 = 'TODO';
+var DATABASE1 = 'TODO';
+var DATABASE2 = 'TODO';
+
+var clients[0] = mysql.createClient({
+	user: 'TODO',
+	password: 'TODO',
+	host: 'TODO',
+	port: 1337,
+	database: DATABASE0,
+});
+
+var clients[1] = mysql.createClient({
+	user: 'TODO',
+	password: 'TODO',
+	host: 'TODO',
+	port: 1337,
+	database: DATABASE1,
+});
+
+var clients[2] = mysql.createClient({
+	user: 'TODO',
+	password: 'TODO',
+	host: 'TODO',
+	port: 1337,
+	database: DATABASE2,
+});
+
+//------------------------------------------------------------------------------
 
 function Database() {
     
@@ -25,9 +69,20 @@ Database.prototype.selectTweets = function (username, callback) {
 
 Database.prototype.insertTweet = function (username, status, callback) {
 
-	// TODO proper implementation needed
+	// TODO didn't check if this even works
+	
+	var now = new Date();
 
-	callback ({"created_at": "Fri Jun 24 17:43:26 +0000 2011", "id": 84315710834212866});
+	clients[0].query(
+		'INSERT INTO ' + STATUSES + ' SET id = ?, user_id = ?, text = ?, created_at = ?',
+		[now.toString(), username, status, now],
+	function() {
+	
+		callback ({'created_at': now.toString(), 'id': now});
+	
+	});
+
+	//callback ({"created_at": "Fri Jun 24 17:43:26 +0000 2011", "id": 84315710834212866});
 
 };
 

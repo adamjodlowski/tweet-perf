@@ -44,3 +44,40 @@ server.get('/statuses/user_timeline.json', function(req, res) {
 	}
 
 });
+
+/*
+ * Posting a tweet, example:
+ * POST /statuses/update.json?status=I%20like%20pancakes&screen_name=adamus
+ */
+server.post('/statuses/update.json', function(req, res) {
+
+	if (req.params.screen_name && req.params.status) {
+
+		engine.postTweet(req.params.screen_name, req.params.status, function(tweet) {
+		
+			//if (tweet) {
+			
+				//res.send(201, tweet);
+			
+			//} else {
+			
+				res.send(500, {});
+				
+			//}
+		
+		});
+
+	} else {
+
+		res.send(400);
+
+	}
+
+});
+
+
+ 
+//{
+//  "created_at": "Fri Jun 24 17:43:26 +0000 2011",
+//  "id": 84315710834212866
+//}

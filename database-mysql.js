@@ -21,4 +21,12 @@ Database.prototype.selectTweets = function (username, callback) {
 		"id": 18700688341}
 		]);
 
-}; 
+};
+
+Database.prototype.insertTweet = function (username, status, callback) {
+
+	// TODO proper implementation needed
+
+	callback ({"created_at": "Fri Jun 24 17:43:26 +0000 2011", "id": 84315710834212866});
+
+};

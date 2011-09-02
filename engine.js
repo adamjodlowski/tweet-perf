@@ -31,3 +31,15 @@ Engine.prototype.getTweets = function (username, callback) {
 	});
 
 };
+
+Engine.prototype.postTweet = function (username, status, callback) {
+
+	// TODO proper implementation needed
+
+	database.insertTweet(username, status, function(tweet) {
+	
+		callback(tweet);
+	
+	});
+
+};

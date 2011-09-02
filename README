@@ -1,0 +1,1 @@
+Basic Twitter clone using node.js (restify framework) and mysql database -- backend only, provided by pseudo-RESTful interface. Coded for purposes of http://devmeetings.pl in order to measure performance of such composition.

@@ -61,7 +61,37 @@ server.post('/statuses/update.json', function(req, res) {
 			
 			} else {
 			
-				res.send(500, {});
+				res.send(500);
+				
+			}
+		
+		});
+
+	} else {
+
+		res.send(400);
+
+	}
+
+});
+
+/*
+ * Getting user's timeline (user's own tweets + tweets by users being followed by her/him), example:
+ * GET /statuses/home_timeline.json?screen_name=adamus
+ */
+server.get('/statuses/home_timeline.json', function(req, res) {
+
+	if (req.params.screen_name) {
+
+		engine.getTimeline(req.params.screen_name, function(tweets) {
+		
+			if (tweets) {
+			
+				res.send(200, tweets);
+			
+			} else {
+			
+				res.send(200, []);
 				
 			}
 		

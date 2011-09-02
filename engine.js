@@ -43,3 +43,15 @@ Engine.prototype.postTweet = function (username, status, callback) {
 	});
 
 };
+
+Engine.prototype.getTimeline = function (username, callback) {
+
+	// TODO proper implementation needed
+
+	database.selectTimeline(username, function(tweets) {
+	
+		callback(tweets);
+	
+	});
+
+};

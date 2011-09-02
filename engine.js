@@ -1,6 +1,13 @@
 /*
  * Engine module responsible for almost all application logic.
  */
+ 
+ /*
+ * Database schema:
+ * users: id, name, screen_name
+ * statuses: id, user_id, text, created_at
+ * followers: user_id, follower_id
+ */
 
 function Engine() {
 

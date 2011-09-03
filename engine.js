@@ -56,7 +56,13 @@ Engine.prototype.getTimeline = function (username, callback) {
 
 	database.selectTimeline(username, function(tweets) {
 	
-		callback(tweets);
+		if (tweets) {
+		
+			tweets.sort(dateSorter);
+			
+			callback(tweets.slice(0, 19));
+		
+		} else callback([]);
 	
 	});
 

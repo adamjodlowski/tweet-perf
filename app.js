@@ -16,6 +16,19 @@ var engine = new engineModule.Engine();
 //------------------------------------------------------------------------------
 
 /*
+ * Experimenting with multiple server processes using https://github.com/kriszyp/multi-node
+ */
+
+/*
+var nodes = require("multi-node").listen({
+	port: 1337,
+	nodes: 4
+}, server);
+*/
+
+//------------------------------------------------------------------------------
+
+/*
  * Obtaining user's timeline, example:
  * GET /statuses/user_timeline.json?screen_name=adamus
  */

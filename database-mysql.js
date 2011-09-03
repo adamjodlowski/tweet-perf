@@ -92,7 +92,6 @@ Database.prototype.selectTweets = function (username, callback) {
 	}
 }
 
-
 Database.prototype.insertTweet = function (username, status, callback) {
 
 	// TODO didn't check if this even works

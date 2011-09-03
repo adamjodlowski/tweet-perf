@@ -16,32 +16,41 @@ var FOLLOWERS = 'followers';
  */
 
 // tweets are partitioned into databases
-var DATABASE0 = 'TODO';
-var DATABASE1 = 'TODO';
-var DATABASE2 = 'TODO';
+var DATABASE0 = 'twitter1';
+var DATABASE1 = 'twitter2';
+var DATABASE2 = 'twitter3';
+var DATABASE3 = 'twitter4';
 
 var clients[0] = mysql.createClient({
-	user: 'TODO',
-	password: 'TODO',
-	host: 'TODO',
-	port: 1337,
+	user: 'devcamp',
+	password: 'devcamp',
+	host: '10.1.1.10',
+	port: 3306,
 	database: DATABASE0,
 });
 
 var clients[1] = mysql.createClient({
-	user: 'TODO',
-	password: 'TODO',
-	host: 'TODO',
-	port: 1337,
+	user: 'devcamp',
+	password: 'devcamp',
+	host: '10.1.1.10',
+	port: 3306,
 	database: DATABASE1,
 });
 
 var clients[2] = mysql.createClient({
-	user: 'TODO',
-	password: 'TODO',
-	host: 'TODO',
-	port: 1337,
+	user: 'devcamp',
+	password: 'devcamp',
+	host: '10.1.1.10',
+	port: 3306,
 	database: DATABASE2,
+});
+
+var clients[3] = mysql.createClient({
+	user: 'devcamp',
+	password: 'devcamp',
+	host: '10.1.1.10',
+	port: 3306,
+	database: DATABASE3,
 });
 
 //------------------------------------------------------------------------------

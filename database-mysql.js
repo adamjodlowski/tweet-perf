@@ -25,33 +25,33 @@ var DATABASE3 = 'twitter4';
 var clients = [];
 
 clients.push(mysql.createClient({
-	user: 'devcamp',
-	password: 'devcamp',
-	host: '10.1.1.149',
+	user: 'scott',
+	password: 'tiger',
+	host: '10.1.1.134',
 	port: 3306,
 	database: DATABASE0,
 }));
 
 clients.push(mysql.createClient({
-	user: 'devcamp',
-	password: 'devcamp',
-	host: '10.1.1.149',
+	user: 'scott',
+	password: 'tiger',
+	host: '10.1.1.134',
 	port: 3306,
 	database: DATABASE1,
 }));
 
 clients.push(mysql.createClient({
-	user: 'devcamp',
-	password: 'devcamp',
-	host: '10.1.1.149',
+	user: 'scott',
+	password: 'tiger',
+	host: '10.1.1.134',
 	port: 3306,
 	database: DATABASE2,
 }));
 
 clients.push(mysql.createClient({
-	user: 'devcamp',
-	password: 'devcamp',
-	host: '10.1.1.149',
+	user: 'scott',
+	password: 'tiger',
+	host: '10.1.1.134',
 	port: 3306,
 	database: DATABASE3,
 }));
@@ -64,6 +64,8 @@ function Database() {
 exports.Database = Database;
 
 Database.prototype.selectTweets = function (username, callback) {
+
+	console.log(clients);
 
 	var counter = 0;
 	var full_results = [];

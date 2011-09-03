@@ -55,27 +55,47 @@ clients.push(mysql.createClient({
 	database: DATABASE3,
 }));
 
-clients[0].query(
-  'SELECT * FROM '+ USERS ,
-  function selectCb(err, results, fields) {
-    if (err) {
-      throw err;
-    }
-
-    console.log(results);
-    console.log(fields);
-  }
-);
-
 //------------------------------------------------------------------------------
 
 function Database() {
-    
 };
 
 exports.Database = Database;
 
 Database.prototype.selectTweets = function (username, callback) {
+
+	//zapytać bazę o nazwę użytkownika, następnie odpytać wszystkie bazy o tweety tego usera
+
+	for (var current_client in clients) {
+
+			current_client.query(
+			'SELECT id FROM '+ USERS + 'WHERE screen_name = ' + username,
+
+			function selectCb(err, results, fields) {
+				if (err) {
+				  throw err;
+				}
+
+//				console.log(results);
+//				console.log(fields);
+
+				callback ([
+					{"id" : results.id} 
+/*
+					{"created_at": "Fri Jul 16 16:58:46 +0000 2010",
+					"text": "got a lovely surprise from @craftybeans.",
+					"id": 18700887835},
+					{"created_at": "Fri Jul 16 16:55:52 +0000 2010",
+					"text": "Anything is possible when you're in",
+					"id": 18700688341}
+*/
+					]);
+
+			}
+		);
+	}
+
+
 
 	// TODO proper implementation needed
 
@@ -86,14 +106,7 @@ Database.prototype.selectTweets = function (username, callback) {
 */
 //		callback ({'created_at': now.toString(), 'id': now});
 
-	callback ([
-		{"created_at": "Fri Jul 16 16:58:46 +0000 2010",
-		"text": "got a lovely surprise from @craftybeans.",
-		"id": 18700887835},
-		{"created_at": "Fri Jul 16 16:55:52 +0000 2010",
-		"text": "Anything is possible when you're in",
-		"id": 18700688341}
-		]);
+
 
 //	}
 

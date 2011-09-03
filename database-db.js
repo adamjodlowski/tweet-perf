@@ -99,8 +99,37 @@ Database.prototype.selectTweets = function (username, callback) {
 };
 
 Database.prototype.insertTweet = function (username, status, callback) {
-    
+    var that = this;
+    that.findUserId(username, function(user_id){
+        var client_id = user_id % 4;
+        if (client_id === 0) {
+            client_id = 4;
+        }
+        
+        clients[client_id].query().insert(
+            'statuses',
+            ['user_id', 'text', 'created_at', 'updated_at'],
+            [user_id, status, new Date(), new Date()]
+        ).execute(function(error, rows, cols){
+            if (error) {
+                console.log('SQL INSERT ERROR: ' + error);
+                callback();
+            } 
+            callback(rows.id);
+        });
+    });
 };
+
+Database.prototype.selectStatus = function(status_id, callback) {
+    this.query(function(query){
+        return query
+            .select('users.screen_name, statuses.text, statuses.created_at')
+            .from('statuses')
+            .join({type: 'LEFT', table: 'users', conditions: 'statuses.user_id = user.id', escape: false})
+            .where('statuses.id = ?', [status_id])
+            .limit(1);
+    }, callback, false);
+}
 
 Database.prototype.selectTimeline = function (username, callback) {
     var that = this;

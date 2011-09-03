@@ -9,11 +9,15 @@ var i;
 for (i = 1; i < 5; i++) {
     (function(i) {
         new mysql.Database({
-            hostname: '10.1.1.10',
+            hostname: '10.1.1.149', // 10.1.1.149 //'10.1.1.10',
             user: 'devcamp',
             password: 'devcamp',
-            database: 'twitter' + i
+            database: 'twitter' + i,
+            socket: ''
         }).connect(function(error) {
+            if (error) {
+                console.log('Connection ERROR: ' + error);
+            }
             clients[i] = this;
         });
     }(i));
@@ -41,26 +45,39 @@ Database.prototype.findUser = function (username, callback) {
     ]);
 }
 
-Database.prototype.selectTweets = function (username, callback) {
-    for (i = 1; i < 5; i++) {
-        (function(client){  
-            client
-                .query()
-                .select('users.screen_name, statuses.text, statuses.created_at')
-                .from(USERS)
-                .join({type: 'LEFT', table: 'statuses', conditions: 'users.id = statuses.user_id', escape: false})
-                .where('users.screen_name = ?', [username])
-                .order('statuses.created_at')
-                .limit(LIMIT);
-                .execute(function(error, rows, cols){
-                    if (error) {
-                        console.log(error);
-                    } else if (rows.length) {
+Database.prototype.query = function(createQuery, callback) {
+    var queriesDone = 0;
+    var results = [];
+    for (i = 1; i < clients.length; i++) {
+        (function(client, i){
+            createQuery(client.query(), i).execute(function(error, rows, cols){
+                if (error) {
+                    console.log('SQL ERROR: ' + error);
+                } else {
+                    results += rows;
+                    queriesDone++;
+                    if (rows.length) {
                         callback(rows);
                     }
-                });
-        }(clients[i]));
+                    if (queriesDone === (clients.length - 1)) {
+                        callback(results);
+                    }
+                }
+            });
+        }(clients[i], i));
     }
+}
+
+Database.prototype.selectTweets = function (username, callback) {
+    this.query(function(query, client_index) {
+        return query
+            .select('users.screen_name, statuses.text, statuses.created_at')
+            .from(USERS)
+            .join({type: 'LEFT', table: 'statuses', conditions: 'users.id = statuses.user_id', escape: false})
+            .where('users.screen_name = ?', [username])
+            .order('statuses.created_at')
+            .limit(LIMIT);
+    }, callback);
 };
 
 Database.prototype.insertTweet = function (username, status, callback) {

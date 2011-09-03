@@ -48,7 +48,7 @@ Engine.prototype.postTweet = function (username, status, callback) {
 
 Engine.prototype.getTimeline = function (username, callback) {
 
-	// TODO proper implementation needed
+	console.log('getting timeline for user ' + username);
 
 	database.selectTimeline(username, function(tweets) {
 	
@@ -60,4 +60,4 @@ Engine.prototype.getTimeline = function (username, callback) {
 
 //------------------------------------------------------------------------------
 
-var dateSorter = function
+//var dateSorter = function

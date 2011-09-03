@@ -27,7 +27,7 @@ var clients = [];
 clients.push(mysql.createClient({
 	user: 'scott',
 	password: 'tiger',
-	host: '10.1.1.134',
+	host: 'localhost',
 	port: 3306,
 	database: DATABASE0,
 }));
@@ -35,7 +35,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'scott',
 	password: 'tiger',
-	host: '10.1.1.134',
+	host: 'localhost',
 	port: 3306,
 	database: DATABASE1,
 }));
@@ -43,7 +43,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'scott',
 	password: 'tiger',
-	host: '10.1.1.134',
+	host: 'localhost',
 	port: 3306,
 	database: DATABASE2,
 }));
@@ -51,7 +51,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'scott',
 	password: 'tiger',
-	host: '10.1.1.134',
+	host: 'localhost',
 	port: 3306,
 	database: DATABASE3,
 }));
@@ -64,8 +64,6 @@ function Database() {
 exports.Database = Database;
 
 Database.prototype.selectTweets = function (username, callback) {
-
-	console.log(clients);
 
 	var counter = 0;
 	var full_results = [];
@@ -104,9 +102,9 @@ Database.prototype.insertTweet = function (username, status, callback) {
 	clients[0].query(
 		'INSERT INTO ' + STATUSES + ' SET id = ?, user_id = ?, text = ?, created_at = ?',
 		[now.toString(), username, status, now],
-	function() {
+	function(err, result) {
 	
-		callback ({'created_at': now.toString(), 'id': now});
+		callback ({'created_at': now.toString(), 'id': result.insertId});
 	
 	});
 
@@ -117,6 +115,7 @@ Database.prototype.insertTweet = function (username, status, callback) {
 Database.prototype.selectTimeline = function (username, callback) {
 
 	var counter = 0;
+	var followers_size = 0;
 	var full_results = [];
 
 	var joinTweets = function(results) {
@@ -124,7 +123,9 @@ Database.prototype.selectTimeline = function (username, callback) {
 		full_results = full_results.concat(results);
 
 		counter++;
-		if (counter == 4) {
+
+
+		if (counter >= 4*followers_size) {
 			callback (full_results);
 		}
 	}
@@ -137,20 +138,19 @@ Database.prototype.selectTimeline = function (username, callback) {
 		
 		full_followers = full_followers.concat(followers);
 
-//		console.log(full_followers);
-
 		counter++;
 		if (counter == 4) {
 	
-			for (k = 0; k < full_followers.length; k++) {
-		
+			followers_size = full_followers.length;
+
+			for (k = 0; k < followers_size; k++) {
+
 					for (l = 0; l < 4; l++) {
 
 							clients[l].query(
 							'SELECT * FROM ' + STATUSES + ' WHERE user_id = ? ORDER BY created_at LIMIT ' + LIMIT,
 							[full_followers[k]],
 							function(err, results, fields) {
-									
 									joinTweets(results);
 	
 								}

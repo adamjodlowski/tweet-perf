@@ -22,11 +22,17 @@ var database = new databaseModule.Database();
 
 Engine.prototype.getTweets = function (username, callback) {
 
-	// TODO proper implementation needed
+	console.log('getting tweets for user ' + username);
 
 	database.selectTweets(username, function(tweets) {
-	
-		callback(tweets);
+		
+		if (tweets) {
+		
+			tweets.sort(dateSorter);
+			
+			callback(tweets.slice(0, 19));
+		
+		} else callback([]);
 	
 	});
 
@@ -34,7 +40,7 @@ Engine.prototype.getTweets = function (username, callback) {
 
 Engine.prototype.postTweet = function (username, status, callback) {
 
-	// TODO proper implementation needed
+	console.log('posting tweet for user ' + username + ' with status: ' + status);
 
 	database.insertTweet(username, status, function(tweet) {
 	
@@ -46,12 +52,28 @@ Engine.prototype.postTweet = function (username, status, callback) {
 
 Engine.prototype.getTimeline = function (username, callback) {
 
-	// TODO proper implementation needed
+	console.log('getting timeline for user ' + username);
 
 	database.selectTimeline(username, function(tweets) {
 	
-		callback(tweets);
+		if (tweets) {
+		
+			tweets.sort(dateSorter);
+			
+			callback(tweets.slice(0, 19));
+		
+		} else callback([]);
 	
 	});
+
+};
+
+//------------------------------------------------------------------------------
+
+// date sorting, needed for reducing tweets returned by home timeline
+// we're passing it to sort() method
+var dateSorter = function (a, b) {
+
+	return a.created_at.getTime() < b.created_at.getTime() ? true : false;
 
 };

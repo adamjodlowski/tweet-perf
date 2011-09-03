@@ -25,32 +25,32 @@ var DATABASE3 = 'twitter4';
 var clients = [];
 
 clients.push(mysql.createClient({
-	user: 'scott',
-	password: 'tiger',
+	user: 'devcamp',
+	password: 'devcamp',
 	host: 'localhost',
 	port: 3306,
 	database: DATABASE0,
 }));
 
 clients.push(mysql.createClient({
-	user: 'scott',
-	password: 'tiger',
+	user: 'devcamp',
+	password: 'devcamp',
 	host: 'localhost',
 	port: 3306,
 	database: DATABASE1,
 }));
 
 clients.push(mysql.createClient({
-	user: 'scott',
-	password: 'tiger',
+	user: 'devcamp',
+	password: 'devcamp',
 	host: 'localhost',
 	port: 3306,
 	database: DATABASE2,
 }));
 
 clients.push(mysql.createClient({
-	user: 'scott',
-	password: 'tiger',
+	user: 'devcamp',
+	password: 'devcamp',
 	host: 'localhost',
 	port: 3306,
 	database: DATABASE3,
@@ -182,22 +182,6 @@ Database.prototype.selectTimeline = function (username, callback) {
 	
 				}
 			);
-
-
-			//zapytaj o wpisy moje i 
-
-
-
-/*			clients[i].query(
-			'SELECT * FROM ' + STATUSES + ' s INNER JOIN ' + USERS + ' u ON s.user_id = u.id WHERE screen_name LIKE ? ORDER BY s.created_at LIMIT ' + LIMIT,
-			[username],
-			function(err, results, fields) {
-
-					joinTweets(results);
-	
-				}
-			);
-*/
 
 	}
 

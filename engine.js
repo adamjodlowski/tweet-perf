@@ -22,6 +22,8 @@ var database = new databaseModule.Database();
 
 Engine.prototype.getTweets = function (username, callback) {
 
+	console.log('getting tweets for user ' + username);
+
 	database.selectTweets(username, function(tweets) {
 		
 		// no additional processing is needed
@@ -34,7 +36,7 @@ Engine.prototype.getTweets = function (username, callback) {
 
 Engine.prototype.postTweet = function (username, status, callback) {
 
-	// TODO proper implementation needed
+	console.log('posting tweet for user ' + username + ' with status: ' + status);
 
 	database.insertTweet(username, status, function(tweet) {
 	
@@ -55,3 +57,7 @@ Engine.prototype.getTimeline = function (username, callback) {
 	});
 
 };
+
+//------------------------------------------------------------------------------
+
+var dateSorter = function

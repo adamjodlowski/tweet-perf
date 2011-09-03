@@ -89,7 +89,6 @@ Database.prototype.selectTweets = function (username, callback) {
 	
 				}
 			);
-
 	}
 }
 
@@ -115,20 +114,60 @@ Database.prototype.insertTweet = function (username, status, callback) {
 
 Database.prototype.selectTimeline = function (username, callback) {
 
-	// TODO proper implementation needed
+	var counter = 0;
+	var full_followers = [];
 
-	callback ([
-		{"created_at": "Fri Jul 16 16:58:46 +0000 2010",
-		"text": "got a lovely surprise from @craftybeans. ",
-		"id": 18700887835,
-		"user": {"name": "cindy li",
-				"id": 29733,
-				"screen_name": "cindyli"}},
-		{"created_at": "Fri Jul 16 16:55:52 +0000 2010",
-		"text": "Anything is possible when you're in",
-		"id": 18700688341,
-		"user": {"name": "Daniel Burka",
-		"id": 635543,"screen_name": "dburka"}}
-		]);
+	var joinFollowers = function(followers) {
 		
+		full_followers = full_followers.concat(followers);
+
+		counter++;
+		if (counter == 4) {
+	
+			console.log(full_followers);
+			//zapytanie + callback
+
+		}
+	}
+
+	for (i = 0; i < 4; i++) {
+
+			//20 tweetow z kazdego usera	
+			//zapytaj o id moje i wszystkich ktorych followuje
+
+			clients[i].query(
+			'SELECT * FROM ' + FOLLOWERS + ' f INNER JOIN ' + USERS + ' u ON f.follower_id = u.id WHERE screen_name LIKE ?',
+			[username],
+			function(err, results, fields) {
+
+					var temp_followers = [];
+
+					for (j = 0; j < results.length; j++) {
+	
+							temp_followers.push(results[j].user_id);
+
+					}
+					joinFollowers(temp_followers);
+	
+				}
+			);
+
+
+			//zapytaj o wpisy moje i 
+
+
+
+/*			clients[i].query(
+			'SELECT * FROM ' + STATUSES + ' s INNER JOIN ' + USERS + ' u ON s.user_id = u.id WHERE screen_name LIKE ? ORDER BY s.created_at LIMIT ' + LIMIT,
+			[username],
+			function(err, results, fields) {
+
+					joinTweets(results);
+	
+				}
+			);
+*/
+
+	}
+
 };

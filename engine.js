@@ -60,4 +60,11 @@ Engine.prototype.getTimeline = function (username, callback) {
 
 //------------------------------------------------------------------------------
 
-//var dateSorter = function
+// date sorting, needed for reducing tweets returned by home timeline
+// we're passing it to sort() method
+var dateSorter = function (a, b) {
+
+	return a.getTime() > b.getTime() ? true : false;
+
+};
+

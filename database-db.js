@@ -52,7 +52,7 @@ Database.prototype.query = function(createQuery, callback, queryAll) {
                             callback(rows);
                         }
                     } else if (queryAll !== false && queriesDone === (clients.length - 1)) {
-                        console.log('Results count: '+ logResultsCount);
+                        // console.log('Results count: '+ logResultsCount);
                         callback(results);
                     }
                 }
@@ -115,7 +115,7 @@ Database.prototype.insertTweet = function (username, status, callback) {
                 console.log('SQL INSERT ERROR: ' + error);
                 callback();
             } 
-            callback(rows.id);
+            callback({id: rows.id, database: 'twitter'+client_id});
         });
     });
 };

@@ -7,6 +7,7 @@ var mysql = require('mysql');
 var USERS = 'users';
 var STATUSES = 'statuses';
 var FOLLOWERS = 'followers';
+var LIMIT = 20;
 
  /*
  * Database schema:
@@ -64,53 +65,34 @@ exports.Database = Database;
 
 Database.prototype.selectTweets = function (username, callback) {
 
-	//zapytać bazę o nazwę użytkownika, następnie odpytać wszystkie bazy o tweety tego usera
+	var counter = 0;
+	var full_results = [];
 
-	for (var current_client in clients) {
+	var joinTweets = function(results) {
+		
+		full_results = full_results.concat(results);
 
-			current_client.query(
-			'SELECT id FROM '+ USERS + 'WHERE screen_name = ' + username,
-
-			function selectCb(err, results, fields) {
-				if (err) {
-				  throw err;
-				}
-
-//				console.log(results);
-//				console.log(fields);
-
-				callback ([
-					{"id" : results.id} 
-/*
-					{"created_at": "Fri Jul 16 16:58:46 +0000 2010",
-					"text": "got a lovely surprise from @craftybeans.",
-					"id": 18700887835},
-					{"created_at": "Fri Jul 16 16:55:52 +0000 2010",
-					"text": "Anything is possible when you're in",
-					"id": 18700688341}
-*/
-					]);
-
-			}
-		);
+		counter++;
+		if (counter == 4) {
+			callback (full_results);
+		}
 	}
 
+	for (i = 0; i < 4; i++) {
 
+			clients[i].query(
+			'SELECT * FROM ' + STATUSES + ' s INNER JOIN ' + USERS + ' u ON s.user_id = u.id WHERE screen_name LIKE ? ORDER BY s.created_at LIMIT ' + LIMIT,
+			[username],
+			function(err, results, fields) {
 
-	// TODO proper implementation needed
+					joinTweets(results);
+	
+				}
+			);
 
-/*	clients[0].query(
-		'INSERT INTO ' + STATUSES + ' SET id = ?, user_id = ?, text = ?, created_at = ?',
-		[now.toString(), username, status, now],
-	function() {
-*/
-//		callback ({'created_at': now.toString(), 'id': now});
+	}
+}
 
-
-
-//	}
-
-};
 
 Database.prototype.insertTweet = function (username, status, callback) {
 

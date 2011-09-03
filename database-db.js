@@ -9,7 +9,7 @@ var i;
 for (i = 1; i < 5; i++) {
     (function(i) {
         new mysql.Database({
-            hostname: '10.1.1.149', // 10.1.1.149 //'10.1.1.10',
+            hostname: 'localhost', // 10.1.1.149 //'10.1.1.10',
             user: 'devcamp',
             password: 'devcamp',
             database: 'twitter' + i,

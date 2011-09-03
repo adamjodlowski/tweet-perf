@@ -94,7 +94,6 @@ Database.prototype.selectTweets = function (username, callback) {
 	}
 }
 
-
 Database.prototype.insertTweet = function (username, status, callback) {
 
 	// TODO didn't check if this even works
@@ -104,7 +103,9 @@ Database.prototype.insertTweet = function (username, status, callback) {
 	clients[0].query(
 		'INSERT INTO ' + STATUSES + ' SET id = ?, user_id = ?, text = ?, created_at = ?',
 		[now.toString(), username, status, now],
-	function() {
+	function(test) {
+	
+		console.log(test);
 	
 		callback ({'created_at': now.toString(), 'id': now});
 	

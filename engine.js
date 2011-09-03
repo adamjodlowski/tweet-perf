@@ -22,11 +22,11 @@ var database = new databaseModule.Database();
 
 Engine.prototype.getTweets = function (username, callback) {
 
-	// TODO proper implementation needed
-
 	database.selectTweets(username, function(tweets) {
-	
-		callback(tweets);
+		
+		// no additional processing is needed
+		if (tweets) callback(tweets);
+		else callback([]);
 	
 	});
 

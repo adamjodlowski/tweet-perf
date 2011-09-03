@@ -26,9 +26,17 @@ Engine.prototype.getTweets = function (username, callback) {
 
 	database.selectTweets(username, function(tweets) {
 		
-		// no additional processing is needed
-		if (tweets) callback(tweets);
-		else callback([]);
+		if (tweets) {
+		
+			console.log(tweets);
+		
+			tweets.sort(dateSorter);	
+			
+			console.log(tweets);
+			
+			callback(tweets);
+		
+		} else callback([]);
 	
 	});
 

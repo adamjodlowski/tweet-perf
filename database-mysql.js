@@ -27,7 +27,7 @@ var clients = [];
 clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
-	host: '10.1.1.10',
+	host: '10.1.1.149',
 	port: 3306,
 	database: DATABASE0,
 }));
@@ -35,7 +35,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
-	host: '10.1.1.10',
+	host: '10.1.1.149',
 	port: 3306,
 	database: DATABASE1,
 }));
@@ -43,7 +43,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
-	host: '10.1.1.10',
+	host: '10.1.1.149',
 	port: 3306,
 	database: DATABASE2,
 }));
@@ -51,7 +51,7 @@ clients.push(mysql.createClient({
 clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
-	host: '10.1.1.10',
+	host: '10.1.1.149',
 	port: 3306,
 	database: DATABASE3,
 }));
@@ -115,17 +115,48 @@ Database.prototype.insertTweet = function (username, status, callback) {
 Database.prototype.selectTimeline = function (username, callback) {
 
 	var counter = 0;
+	var full_results = [];
+
+	var joinTweets = function(results) {
+		
+		full_results = full_results.concat(results);
+
+		counter++;
+		if (counter == 4) {
+			callback (full_results);
+		}
+	}
+
+
+	var counter = 0;
 	var full_followers = [];
 
 	var joinFollowers = function(followers) {
 		
 		full_followers = full_followers.concat(followers);
 
+//		console.log(full_followers);
+
 		counter++;
 		if (counter == 4) {
 	
-			console.log(full_followers);
-			//zapytanie + callback
+			for (k = 0; k < full_followers.length; k++) {
+		
+					for (l = 0; l < 4; l++) {
+
+							clients[l].query(
+							'SELECT * FROM ' + STATUSES + ' WHERE user_id = ? ORDER BY created_at LIMIT ' + LIMIT,
+							[full_followers[k]],
+							function(err, results, fields) {
+									
+									joinTweets(results);
+	
+								}
+							);
+
+					}
+
+			}
 
 		}
 	}
@@ -143,10 +174,9 @@ Database.prototype.selectTimeline = function (username, callback) {
 					var temp_followers = [];
 
 					for (j = 0; j < results.length; j++) {
-	
 							temp_followers.push(results[j].user_id);
-
 					}
+
 					joinFollowers(temp_followers);
 	
 				}

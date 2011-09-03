@@ -21,37 +21,51 @@ var DATABASE1 = 'twitter2';
 var DATABASE2 = 'twitter3';
 var DATABASE3 = 'twitter4';
 
-var clients[0] = mysql.createClient({
+var clients = [];
+
+clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
 	host: '10.1.1.10',
 	port: 3306,
 	database: DATABASE0,
-});
+}));
 
-var clients[1] = mysql.createClient({
+clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
 	host: '10.1.1.10',
 	port: 3306,
 	database: DATABASE1,
-});
+}));
 
-var clients[2] = mysql.createClient({
+clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
 	host: '10.1.1.10',
 	port: 3306,
 	database: DATABASE2,
-});
+}));
 
-var clients[3] = mysql.createClient({
+clients.push(mysql.createClient({
 	user: 'devcamp',
 	password: 'devcamp',
 	host: '10.1.1.10',
 	port: 3306,
 	database: DATABASE3,
-});
+}));
+
+clients[0].query(
+  'SELECT * FROM '+ USERS ,
+  function selectCb(err, results, fields) {
+    if (err) {
+      throw err;
+    }
+
+    console.log(results);
+    console.log(fields);
+  }
+);
 
 //------------------------------------------------------------------------------
 
@@ -65,6 +79,13 @@ Database.prototype.selectTweets = function (username, callback) {
 
 	// TODO proper implementation needed
 
+/*	clients[0].query(
+		'INSERT INTO ' + STATUSES + ' SET id = ?, user_id = ?, text = ?, created_at = ?',
+		[now.toString(), username, status, now],
+	function() {
+*/
+//		callback ({'created_at': now.toString(), 'id': now});
+
 	callback ([
 		{"created_at": "Fri Jul 16 16:58:46 +0000 2010",
 		"text": "got a lovely surprise from @craftybeans.",
@@ -73,6 +94,8 @@ Database.prototype.selectTweets = function (username, callback) {
 		"text": "Anything is possible when you're in",
 		"id": 18700688341}
 		]);
+
+//	}
 
 };
 

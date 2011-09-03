@@ -28,13 +28,9 @@ Engine.prototype.getTweets = function (username, callback) {
 		
 		if (tweets) {
 		
-			console.log(tweets);
-		
-			tweets.sort(dateSorter);	
+			tweets.sort(dateSorter);
 			
-			console.log(tweets);
-			
-			callback(tweets);
+			callback(tweets.slice(0, 19));
 		
 		} else callback([]);
 	
@@ -72,7 +68,6 @@ Engine.prototype.getTimeline = function (username, callback) {
 // we're passing it to sort() method
 var dateSorter = function (a, b) {
 
-	return a.getTime() > b.getTime() ? true : false;
+	return a.created_at.getTime() < b.created_at.getTime() ? true : false;
 
 };
-

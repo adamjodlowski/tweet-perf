@@ -9,7 +9,7 @@ var i;
 for (i = 1; i < 5; i++) {
     (function(i) {
         new mysql.Database({
-            hostname: 'localhost', // 10.1.1.149 //'10.1.1.10',
+            hostname: 'localhost',
             user: 'devcamp',
             password: 'devcamp',
             database: 'twitter' + i,
@@ -52,7 +52,6 @@ Database.prototype.query = function(createQuery, callback, queryAll) {
                             callback(rows);
                         }
                     } else if (queryAll !== false && queriesDone === (clients.length - 1)) {
-                        // console.log('Results count: '+ logResultsCount);
                         callback(results);
                     }
                 }

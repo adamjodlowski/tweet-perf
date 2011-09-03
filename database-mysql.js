@@ -93,8 +93,6 @@ Database.prototype.selectTweets = function (username, callback) {
 }
 
 Database.prototype.insertTweet = function (username, status, callback) {
-
-	// TODO didn't check if this even works
 	
 	var now = new Date();
 
@@ -106,8 +104,6 @@ Database.prototype.insertTweet = function (username, status, callback) {
 		callback ({'created_at': now.toString(), 'id': result.insertId});
 	
 	});
-
-	//callback ({"created_at": "Fri Jun 24 17:43:26 +0000 2011", "id": 84315710834212866});
 
 };
 
@@ -150,6 +146,7 @@ Database.prototype.selectTimeline = function (username, callback) {
 							'SELECT * FROM ' + STATUSES + ' WHERE user_id = ? ORDER BY created_at LIMIT ' + LIMIT,
 							[full_followers[k]],
 							function(err, results, fields) {
+							
 									joinTweets(results);
 	
 								}
@@ -161,11 +158,8 @@ Database.prototype.selectTimeline = function (username, callback) {
 
 		}
 	}
-
+	
 	for (i = 0; i < 4; i++) {
-
-			//20 tweetow z kazdego usera	
-			//zapytaj o id moje i wszystkich ktorych followuje
 
 			clients[i].query(
 			'SELECT * FROM ' + FOLLOWERS + ' f INNER JOIN ' + USERS + ' u ON f.follower_id = u.id WHERE screen_name LIKE ?',

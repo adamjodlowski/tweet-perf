@@ -8,7 +8,7 @@ var options = {
 	accept: [ 'application/json' ]
 }
 var server = restify.createServer(options);
-server.listen(3000);
+//server.listen(3000);
 
 var engineModule = require('./engine');
 var engine = new engineModule.Engine();
@@ -19,12 +19,10 @@ var engine = new engineModule.Engine();
  * Experimenting with multiple server processes using https://github.com/kriszyp/multi-node
  */
 
-/*
 var nodes = require("multi-node").listen({
 	port: 1337,
 	nodes: 4
 }, server);
-*/
 
 //------------------------------------------------------------------------------
 
